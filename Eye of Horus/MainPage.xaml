@@ -9,7 +9,7 @@
 
     <Page.Resources>
         <SolidColorBrush x:Key="TranslucentBlackBrush" Color="Black" Opacity="0.3"/>
-
+        
         <Style x:Key="ButtonStyle" TargetType="Button">
             <Setter Property="Margin" Value="10,40"/>
             <Setter Property="Foreground" Value="White"/>
@@ -36,7 +36,7 @@
 
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        
+
         <!--Camera preview-->
         <CaptureElement Name="PreviewControl" Stretch="UniformToFill" ManipulationMode="Scale"
                         ManipulationDelta="PreviewControl_ManipulationDelta" Tapped="PreviewControl_Tapped"/>
@@ -45,62 +45,11 @@
             <Rectangle Name="FocusRectangle" Stroke="White" StrokeThickness="2" Visibility="Collapsed"/>
         </Canvas>
 
-        <!-- Capture + Record buttons -->
-
-        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
-            <StackPanel.Resources>
-                <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
-                    <Setter Property="MinWidth" Value="80"/>
-                    <Setter Property="MinHeight" Value="80"/>
-                </Style>
-            </StackPanel.Resources>
-
-            <Button Name="PhotoButton" Click="PhotoButton_Click" IsEnabled="False">
-                <Viewbox MaxHeight="40" MaxWidth="40">
-                    <SymbolIcon Symbol="Camera"/>
-                </Viewbox>
-            </Button>
-
-            <Button Name="VideoButton" Click="VideoButton_Click" IsEnabled="False">
-                <Grid>
-                    <Ellipse x:Name="StartRecordingIcon" Fill="Red" Width="20" Height="20"/>
-                    <Rectangle x:Name="StopRecordingIcon" Fill="White" Width="20" Height="20" Visibility="Collapsed"/>
-                </Grid>
-            </Button>
-        </StackPanel>
- 
         <!--Manual controls-->
-        <Grid Visibility="Collapsed" Name="CameraControlsGrid">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <!--Stack panel containing the buttons for each control scenario-->
-            <StackPanel Name="ScenarioControlStackPanel" Grid.Row="0" HorizontalAlignment="Left" MinWidth="88">
-                    <StackPanel.Resources>
-                        <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
-                            <Setter Property="Margin" Value="10,7"/>
-                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                        </Style>
-                    </StackPanel.Resources>
-                    <StackPanel.ChildrenTransitions>
-                        <TransitionCollection>
-                            <AddDeleteThemeTransition/>
-                        </TransitionCollection>
-                    </StackPanel.ChildrenTransitions>
-
-                    <Button Name="FlashButton" Content="Flash" Click="ManualControlButton_Click"/>
-                    <Button Name="ZoomButton" Content="Zoom" Click="ManualControlButton_Click"/>
-                    <Button Name="FocusButton" Content="Focus" Click="ManualControlButton_Click"/>
-                    <Button Name="WbButton" Content="WB" Click="ManualControlButton_Click"/>
-                    <Button Name="IsoButton" Content="ISO" Click="ManualControlButton_Click"/>
-                    <Button Name="ShutterButton" Content="Shutter" Click="ManualControlButton_Click"/>
-                    <Button Name="EvButton" Content="EV" Click="ManualControlButton_Click"/>
-                </StackPanel>
-
+        <Grid Visibility="Visible" Name="CameraControlsGrid" Margin="0,20,0,0">
+    
             <!--Grid that hosts all of the manual controls for the selected camera control-->
-            <Grid Name="ManualControlsGrid" Grid.Row="1" HorizontalAlignment="Left"  Background="{StaticResource TranslucentBlackBrush}" Margin="10" Visibility="Collapsed">
+            <Grid Name="ManualControlsGrid" HorizontalAlignment="Left"  Background="{ThemeResource SystemControlDisabledTransparentBrush}" Margin="15,10,10,50" Visibility="Collapsed">
 
                 <StackPanel Name="FlashStackPanel" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=FlashButton,Path=Visibility}">
                     <RadioButton Name="FlashOnRadioButton" Content="On" Checked="FlashOnRadioButton_Checked"/>
@@ -183,6 +132,46 @@
             </Grid>
         </Grid>
 
+        <AppBar VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="Transparent" UseLayoutRounding="False">
+            <ScrollViewer 
+                  Name="OptionScrollView"
+                  Width="Auto"
+                  HorizontalScrollBarVisibility="Disabled" 
+                  VerticalScrollBarVisibility="Disabled">
+                <StackPanel Orientation="Horizontal" Width="1000">
+                    <!--Manual controlled options-->
+                    <StackPanel Name="ScenarioControlStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" MinWidth="88">
+                        <StackPanel.Resources>
+                            <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+                                <Setter Property="Margin" Value="10,7"/>
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                            </Style>
+                        </StackPanel.Resources>
+                        <!--
+                        <StackPanel.ChildrenTransitions>
+                            <TransitionCollection>
+                                <AddDeleteThemeTransition/>
+                            </TransitionCollection>
+                        </StackPanel.ChildrenTransitions>
+                        -->
+                        
+                        
+                        <Button Name="FlashButton" Content="Flash" Click="ManualControlButton_Click"/>
+                        <Button Name="ZoomButton" Content="Zoom" Click="ManualControlButton_Click"/>
+                        <Button Name="FocusButton" Content="Focus" Click="ManualControlButton_Click"/>
+                        <Button Name="WbButton" Content="WB" Click="ManualControlButton_Click"/>
+                        <Button Name="IsoButton" Content="ISO" Click="ManualControlButton_Click"/>
+                        <Button Name="ShutterButton" Content="Shutter" Click="ManualControlButton_Click"/>
+                        <Button Name="EvButton" Content="EV" Click="ManualControlButton_Click"/>
+                    </StackPanel>
+
+                    <Line X1="0" Y1="55" StrokeThickness="3" Stroke="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
+                    <!-- Capture + Record buttons -->
+                    <AppBarButton Name="PhotoButton" Click="PhotoButton_Click" Icon="Camera" Label="Capture"/>
+                    <AppBarToggleButton Name="VideoButton" Icon="Video" Label="Record" Checked="VideoButton_Record" Unchecked="VideoButton_StopRecording"/>
+                </StackPanel>
+            </ScrollViewer>
+        </AppBar>
     </Grid>
 
 </Page>

@@ -212,21 +212,21 @@ namespace Eye_of_Horus
             await TakePhotoAsync();
         }
 
-        private async void VideoButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void VideoButton_Record(object sender, RoutedEventArgs e) {
             if (!_isRecording)
             {
                 await StartRecordingAsync();
             }
-            else
+            UpdateCaptureControls();
+        }
+        private async void VideoButton_StopRecording(object sender, RoutedEventArgs e)
+        {
+            if (_isRecording)
             {
                 await StopRecordingAsync();
             }
-
-            // After starting or stopping video recording, update the UI to reflect the MediaCapture state
             UpdateCaptureControls();
         }
-
         private async void HardwareButtons_CameraPressed(object sender, CameraEventArgs e)
         {
             await TakePhotoAsync();
@@ -347,7 +347,7 @@ namespace Eye_of_Horus
 
                     await StartPreviewAsync();
 
-                    UpdateCaptureControls();
+                    //UpdateCaptureControls();
                     UpdateManualControlCapabilities();
                 }
             }
@@ -428,10 +428,10 @@ namespace Eye_of_Horus
         private async Task TakePhotoAsync()
         {
             // While taking a photo, keep the video button enabled only if the camera supports simultaneously taking pictures and recording video
-            VideoButton.IsEnabled = _mediaCapture.MediaCaptureSettings.ConcurrentRecordAndPhotoSupported;
+            //VideoButton.IsEnabled = _mediaCapture.MediaCaptureSettings.ConcurrentRecordAndPhotoSupported;
 
             // Make the button invisible if it's disabled, so it's obvious it cannot be interacted with
-            VideoButton.Opacity = VideoButton.IsEnabled ? 1 : 0;
+            //VideoButton.Opacity = VideoButton.IsEnabled ? 1 : 0;
 
             var stream = new InMemoryRandomAccessStream();
 
@@ -457,8 +457,8 @@ namespace Eye_of_Horus
             }
 
             // Done taking a photo, so re-enable the button
-            VideoButton.IsEnabled = true;
-            VideoButton.Opacity = 1;
+            //VideoButton.IsEnabled = true;
+            //VideoButton.Opacity = 1;
         }
 
         /// <summary>
@@ -593,24 +593,10 @@ namespace Eye_of_Horus
         /// </summary>
         private void UpdateCaptureControls()
         {
-            // The buttons should only be enabled if the preview started sucessfully
-            PhotoButton.IsEnabled = _isPreviewing;
-            VideoButton.IsEnabled = _isPreviewing;
-
-            // Depending on the preview, hide or show the controls grid which houses the individual control buttons and settings
-            CameraControlsGrid.Visibility = _isPreviewing ? Visibility.Visible : Visibility.Collapsed;
-
-            // Update recording button to show "Stop" icon instead of red "Record" icon
-            StartRecordingIcon.Visibility = _isRecording ? Visibility.Collapsed : Visibility.Visible;
-            StopRecordingIcon.Visibility = _isRecording ? Visibility.Visible : Visibility.Collapsed;
-
-            // If the camera doesn't support simultaneosly taking pictures and recording video, disable the photo button on record
-            if (_isInitialized && !_mediaCapture.MediaCaptureSettings.ConcurrentRecordAndPhotoSupported)
+            if (_isInitialized)
             {
-                PhotoButton.IsEnabled = !_isRecording;
-
-                // Make the button invisible if it's disabled, so it's obvious it cannot be interacted with
-                PhotoButton.Opacity = PhotoButton.IsEnabled ? 1 : 0;
+                // Hide Capture button while recording
+                PhotoButton.Visibility = _isRecording ? Visibility.Collapsed : Visibility.Visible;
             }
         }
 
@@ -965,7 +951,6 @@ namespace Eye_of_Horus
         }
 
         #endregion
-
     }
 
 

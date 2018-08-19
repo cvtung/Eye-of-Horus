@@ -51,7 +51,7 @@
             <!--Grid that hosts all of the manual controls for the selected camera control-->
             <Grid Name="ManualControlsGrid" HorizontalAlignment="Left"  Background="{ThemeResource SystemControlDisabledTransparentBrush}" Margin="15,10,10,50" Visibility="Collapsed">
 
-                <StackPanel Name="FlashStackPanel" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=FlashButton,Path=Visibility}">
+                <StackPanel Name="FlashStackPanel" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=FlashButton,Path=Tag}">
                     <RadioButton Name="FlashOnRadioButton" Content="On" Checked="FlashOnRadioButton_Checked"/>
                     <RadioButton Name="FlashAutoRadioButton" Content="Auto" Checked="FlashAutoRadioButton_Checked"/>
                     <RadioButton Name="FlashOffRadioButton" Content="Off" Checked="FlashOffRadioButton_Checked"/>
@@ -59,7 +59,7 @@
                     <CheckBox Name="TorchCheckBox" Content="Video Light" Visibility="Collapsed" Checked="TorchCheckBox_CheckedChanged" Unchecked="TorchCheckBox_CheckedChanged"/>
                 </StackPanel>
 
-                <Grid Name="ZoomGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=ZoomButton,Path=Visibility}">
+                <Grid Name="ZoomGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=ZoomButton,Path=Tag}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
@@ -68,7 +68,7 @@
                     <TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="{Binding ElementName=ZoomSlider,Path=Value,Converter={StaticResource RoundingConverter}}"/>
                 </Grid>
 
-                <Grid Name="FocusGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=FocusButton,Path=Visibility}">
+                <Grid Name="FocusGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=FocusButton,Path=Tag}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
@@ -81,12 +81,12 @@
                         <RadioButton Content="Manual" Name="ManualFocusRadioButton" Checked="ManualFocusRadioButton_Checked" IsChecked="True"/>
                         <RadioButton Content="CAF" Name="CafFocusRadioButton" Checked="CafFocusRadioButton_Checked"/>
                         <RadioButton Content="Tap" Name="TapFocusRadioButton" Checked="TapFocusRadioButton_Checked"/>
-                        <CheckBox Content="Assist Light" Name="FocusLightCheckBox" IsEnabled="{Binding ElementName=TapFocusRadioButton,Path=IsChecked}"
+                        <CheckBox Content="Assist Light" Name="FocusLightCheckBox" IsEnabled="{Binding ElementName=TapFocusRadioButton,Path=Tag}"
                                   Checked="FocusLightCheckBox_CheckedChanged" Unchecked="FocusLightCheckBox_CheckedChanged"/>
                     </StackPanel>
                 </Grid>
 
-                <Grid Name="WbStackPanel" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=WbButton,Path=Visibility}">
+                <Grid Name="WbStackPanel" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=WbButton,Path=Tag}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
@@ -97,7 +97,7 @@
                     <ComboBox Name="WbComboBox" Grid.Row="2" SelectionChanged="WbComboBox_SelectionChanged"/>
                 </Grid>
 
-                <Grid Name="IsoGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=IsoButton,Path=Visibility}">
+                <Grid Name="IsoGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=IsoButton,Path=Tag}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
@@ -109,7 +109,7 @@
                     <CheckBox Name="IsoAutoCheckBox" Grid.Row="2" Content="Auto" Checked="IsoAutoCheckBox_CheckedChanged" Unchecked="IsoAutoCheckBox_CheckedChanged"/>
                 </Grid>
 
-                <Grid Name="ShutterGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=ShutterButton,Path=Visibility}">
+                <Grid Name="ShutterGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=ShutterButton,Path=Tag}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
@@ -121,7 +121,7 @@
                     <CheckBox Name="ShutterAutoCheckBox" Grid.Row="2" Content="Auto" Checked="ShutterCheckBox_CheckedChanged" Unchecked="ShutterCheckBox_CheckedChanged"/>
                 </Grid>
 
-                <Grid Name="EvGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=EvButton,Path=Visibility}">
+                <Grid Name="EvGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=EvButton,Path=Tag}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
@@ -132,45 +132,101 @@
             </Grid>
         </Grid>
 
-        <AppBar VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="Transparent" UseLayoutRounding="False">
-            <ScrollViewer 
-                  Name="OptionScrollView"
-                  Width="Auto"
-                  HorizontalScrollBarVisibility="Disabled" 
-                  VerticalScrollBarVisibility="Disabled">
-                <StackPanel Orientation="Horizontal" Width="1000">
-                    <!--Manual controlled options-->
-                    <StackPanel Name="ScenarioControlStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" MinWidth="88">
-                        <StackPanel.Resources>
-                            <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
-                                <Setter Property="Margin" Value="10,7"/>
-                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                            </Style>
-                        </StackPanel.Resources>
-                        <!--
-                        <StackPanel.ChildrenTransitions>
-                            <TransitionCollection>
-                                <AddDeleteThemeTransition/>
-                            </TransitionCollection>
-                        </StackPanel.ChildrenTransitions>
-                        -->
-                        
-                        
-                        <Button Name="FlashButton" Content="Flash" Click="ManualControlButton_Click"/>
-                        <Button Name="ZoomButton" Content="Zoom" Click="ManualControlButton_Click"/>
-                        <Button Name="FocusButton" Content="Focus" Click="ManualControlButton_Click"/>
-                        <Button Name="WbButton" Content="WB" Click="ManualControlButton_Click"/>
-                        <Button Name="IsoButton" Content="ISO" Click="ManualControlButton_Click"/>
-                        <Button Name="ShutterButton" Content="Shutter" Click="ManualControlButton_Click"/>
-                        <Button Name="EvButton" Content="EV" Click="ManualControlButton_Click"/>
-                    </StackPanel>
+        <AppBar VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="Transparent">
+            <AppBar.Resources>
+                <Style TargetType="AppBarButton">
+                    <Setter Property="Width" Value="65"/>
+                </Style>
+                <Style TargetType="AppBarToggleButton">
+                    <Setter Property="Width" Value="65"/>
+                </Style>
+            </AppBar.Resources>
 
-                    <Line X1="0" Y1="55" StrokeThickness="3" Stroke="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
-                    <!-- Capture + Record buttons -->
-                    <AppBarButton Name="PhotoButton" Click="PhotoButton_Click" Icon="Camera" Label="Capture"/>
-                    <AppBarToggleButton Name="VideoButton" Icon="Video" Label="Record" Checked="VideoButton_Record" Unchecked="VideoButton_StopRecording"/>
-                </StackPanel>
-            </ScrollViewer>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ListView 
+                    Name="OptionListView"
+                    Grid.Column="0"
+                    Height="60"
+                    ScrollViewer.HorizontalScrollMode="Enabled"
+                    ScrollViewer.VerticalScrollMode="Disabled"
+                    ScrollViewer.IsHorizontalRailEnabled="True"
+                    ScrollViewer.IsVerticalRailEnabled="False"
+                    ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+                    ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                    >
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="MinWidth" Value="60" />
+                            <Setter Property="MaxWidth" Value="60" />
+                            <Setter Property="Width" Value="60" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="VerticalContentAlignment" Value="Top" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <ListViewItemPresenter ContentMargin="0" Padding="0" MaxWidth="60" MinWidth="60" Width="60"/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+
+                    <AppBarButton Name="FlashButton" Label="Flash" Click="ManualControlButton_Click">
+                        <AppBarButton.Icon>
+                            <BitmapIcon UriSource="ms-appx:///Assets/Icon/flash.png"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Name="ZoomButton" Label="Zoom" Click="ManualControlButton_Click">
+                        <AppBarButton.Icon>
+                            <BitmapIcon UriSource="ms-appx:///Assets/Icon/zoom.png"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Name="FocusButton" Label="Focus" Click="ManualControlButton_Click">
+                        <AppBarButton.Icon>
+                            <BitmapIcon UriSource="ms-appx:///Assets/Icon/focus.png"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Name="WbButton" Label="WB" Click="ManualControlButton_Click">
+                        <AppBarButton.Icon>
+                            <BitmapIcon UriSource="ms-appx:///Assets/Icon/whitebalance.png"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Name="IsoButton" Label="ISO" Click="ManualControlButton_Click">
+                        <AppBarButton.Icon>
+                            <BitmapIcon UriSource="ms-appx:///Assets/Icon/iso.png"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Name="ShutterButton" Label="Shutter" Click="ManualControlButton_Click">
+                        <AppBarButton.Icon>
+                            <BitmapIcon UriSource="ms-appx:///Assets/Icon/shutter.png"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Name="EvButton" Label="EV" Click="ManualControlButton_Click">
+                        <AppBarButton.Icon>
+                            <BitmapIcon UriSource="ms-appx:///Assets/Icon/exposure.png"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                </ListView>
+                <Line X1="0" Y1="55" Grid.Column="1" StrokeThickness="2" Stroke="{ThemeResource SystemControlHighlightAltBaseHighBrush}" Margin="10,0,10,0"/>
+                <!-- Capture + Record buttons -->
+                <AppBarButton Name="PhotoButton" Grid.Column="2" Click="PhotoButton_Click" Icon="Camera" Label="Capture"/>
+                <AppBarToggleButton Name="VideoButton" Grid.Column="3" Icon="Video" Label="Record" Checked="VideoButton_Record" Unchecked="VideoButton_StopRecording"/>
+            </Grid>
         </AppBar>
     </Grid>
 

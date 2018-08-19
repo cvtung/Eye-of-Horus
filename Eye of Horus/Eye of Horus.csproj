@@ -18,6 +18,7 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <PackageCertificateKeyFile>Eye of Horus_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>FAF4BD43469F2A1A884EE6246C64935FFE2E2795</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -114,6 +115,13 @@
     <None Include="Eye of Horus_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Icon\exposure.png" />
+    <Content Include="Assets\Icon\flash.png" />
+    <Content Include="Assets\Icon\focus.png" />
+    <Content Include="Assets\Icon\iso.png" />
+    <Content Include="Assets\Icon\shutter.png" />
+    <Content Include="Assets\Icon\whitebalance.png" />
+    <Content Include="Assets\Icon\zoom.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />

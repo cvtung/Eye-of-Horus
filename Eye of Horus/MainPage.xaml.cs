@@ -1,15 +1,5 @@
-﻿//*********************************************************
-//
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//
-//*********************************************************
-
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -903,22 +893,22 @@ namespace Eye_of_Horus
         private void SetSingleControl(object activeButton)
         {
             _singleControlMode = (activeButton != null);
-
-            // If in single control mode, hide all manual control buttons (except for the active button).
-            // if not in single control mode, then show all the buttons which are supported.
-            foreach (var button in ScenarioControlStackPanel.Children.OfType<Button>())
+            foreach (AppBarButton button in OptionListView.Items)
             {
                 if (button != activeButton)
                 {
                     // The Tag property of each button stores whether that button is supported.
                     // The value is set in the Update___ControlCapabilities method of each control.
-                    button.Visibility = _singleControlMode ? Visibility.Collapsed : (Visibility)button.Tag;
+                    button.Tag = Visibility.Collapsed;
+                }
+                else
+                {
+                    button.Tag = ((Visibility)button.Tag != Visibility.Visible) ? Visibility.Visible : Visibility.Collapsed;
                 }
             }
 
             // Show the container control for manual configuration only when in single control mode
             ManualControlsGrid.Visibility = _singleControlMode ? Visibility.Visible : Visibility.Collapsed;
-
             // Show the Back button only when in single control mode
             _systemNavigationManager.AppViewBackButtonVisibility = _singleControlMode ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
 
@@ -927,7 +917,7 @@ namespace Eye_of_Horus
         private void ManualControlButton_Click(object sender, RoutedEventArgs e)
         {
             // Toggle single control mode
-            SetSingleControl(_singleControlMode ? null : sender);
+            SetSingleControl(sender);
         }
 
         /// <summary>

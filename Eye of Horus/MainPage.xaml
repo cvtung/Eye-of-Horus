@@ -186,19 +186,19 @@
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
 
-                    <AppBarButton Name="FlashButton" Label="Flash" Click="ManualControlButton_Click">
+                    <AppBarButton Name="FocusButton" Label="Focus" Click="ManualControlButton_Click">
                         <AppBarButton.Icon>
-                            <BitmapIcon UriSource="ms-appx:///Assets/Icon/flash.png"/>
+                            <BitmapIcon UriSource="ms-appx:///Assets/Icon/focus.png"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Name="EvButton" Label="EV" Click="ManualControlButton_Click">
+                        <AppBarButton.Icon>
+                            <BitmapIcon UriSource="ms-appx:///Assets/Icon/exposure.png"/>
                         </AppBarButton.Icon>
                     </AppBarButton>
                     <AppBarButton Name="ZoomButton" Label="Zoom" Click="ManualControlButton_Click">
                         <AppBarButton.Icon>
                             <BitmapIcon UriSource="ms-appx:///Assets/Icon/zoom.png"/>
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-                    <AppBarButton Name="FocusButton" Label="Focus" Click="ManualControlButton_Click">
-                        <AppBarButton.Icon>
-                            <BitmapIcon UriSource="ms-appx:///Assets/Icon/focus.png"/>
                         </AppBarButton.Icon>
                     </AppBarButton>
                     <AppBarButton Name="WbButton" Label="WB" Click="ManualControlButton_Click">
@@ -216,9 +216,9 @@
                             <BitmapIcon UriSource="ms-appx:///Assets/Icon/shutter.png"/>
                         </AppBarButton.Icon>
                     </AppBarButton>
-                    <AppBarButton Name="EvButton" Label="EV" Click="ManualControlButton_Click">
+                    <AppBarButton Name="FlashButton" Label="Flash" Click="ManualControlButton_Click">
                         <AppBarButton.Icon>
-                            <BitmapIcon UriSource="ms-appx:///Assets/Icon/exposure.png"/>
+                            <BitmapIcon UriSource="ms-appx:///Assets/Icon/flash.png"/>
                         </AppBarButton.Icon>
                     </AppBarButton>
                 </ListView>

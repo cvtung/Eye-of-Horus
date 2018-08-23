@@ -46,89 +46,86 @@
         </Canvas>
 
         <!--Manual controls-->
-        <Grid Visibility="Visible" Name="CameraControlsGrid" Margin="0,20,0,0">
-    
-            <!--Grid that hosts all of the manual controls for the selected camera control-->
-            <Grid Name="ManualControlsGrid" HorizontalAlignment="Left"  Background="{ThemeResource SystemControlDisabledTransparentBrush}" Margin="15,10,10,50" Visibility="Collapsed">
+        <!--Grid that hosts all of the manual controls for the selected camera control-->
+        <Grid Name="ManualControlsGrid" HorizontalAlignment="Left"  Background="{ThemeResource SystemControlDisabledTransparentBrush}" Margin="15,10,10,50" Visibility="Collapsed">
 
-                <StackPanel Name="FlashStackPanel" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=FlashButton,Path=Tag}">
-                    <RadioButton Name="FlashOnRadioButton" Content="On" Checked="FlashOnRadioButton_Checked"/>
-                    <RadioButton Name="FlashAutoRadioButton" Content="Auto" Checked="FlashAutoRadioButton_Checked"/>
-                    <RadioButton Name="FlashOffRadioButton" Content="Off" Checked="FlashOffRadioButton_Checked"/>
-                    <CheckBox Name="RedEyeFlashCheckBox" Content="Red Eye" Visibility="Collapsed" Checked="RedEyeFlashCheckBox_CheckedChanged" Unchecked="RedEyeFlashCheckBox_CheckedChanged"/>
-                    <CheckBox Name="TorchCheckBox" Content="Video Light" Visibility="Collapsed" Checked="TorchCheckBox_CheckedChanged" Unchecked="TorchCheckBox_CheckedChanged"/>
+            <StackPanel Name="FlashStackPanel" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=FlashButton,Path=Tag}">
+                <RadioButton Name="FlashOnRadioButton" Content="On" Checked="FlashOnRadioButton_Checked"/>
+                <RadioButton Name="FlashAutoRadioButton" Content="Auto" Checked="FlashAutoRadioButton_Checked"/>
+                <RadioButton Name="FlashOffRadioButton" Content="Off" Checked="FlashOffRadioButton_Checked"/>
+                <CheckBox Name="RedEyeFlashCheckBox" Content="Red Eye" Visibility="Collapsed" Checked="RedEyeFlashCheckBox_CheckedChanged" Unchecked="RedEyeFlashCheckBox_CheckedChanged"/>
+                <CheckBox Name="TorchCheckBox" Content="Video Light" Visibility="Collapsed" Checked="TorchCheckBox_CheckedChanged" Unchecked="TorchCheckBox_CheckedChanged"/>
+            </StackPanel>
+
+            <Grid Name="ZoomGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=ZoomButton,Path=Tag}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Slider Name="ZoomSlider" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch" ValueChanged="ZoomSlider_ValueChanged"/>
+                <TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="{Binding ElementName=ZoomSlider,Path=Value,Converter={StaticResource RoundingConverter}}"/>
+            </Grid>
+
+            <Grid Name="FocusGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=FocusButton,Path=Tag}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Slider Name="FocusSlider" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                        IsEnabled="{Binding ElementName=ManualFocusRadioButton,Path=IsChecked}" ValueChanged="FocusSlider_ValueChanged"/>
+                <TextBlock Text="{Binding ElementName=FocusSlider,Path=Value,FallbackValue='0'}" Grid.Row="1" HorizontalAlignment="Center"/>
+                <StackPanel Grid.Row="2">
+                    <RadioButton Content="Manual" Name="ManualFocusRadioButton" Checked="ManualFocusRadioButton_Checked" IsChecked="True"/>
+                    <RadioButton Content="CAF" Name="CafFocusRadioButton" Checked="CafFocusRadioButton_Checked"/>
+                    <RadioButton Content="Tap" Name="TapFocusRadioButton" Checked="TapFocusRadioButton_Checked"/>
+                    <CheckBox Content="Assist Light" Name="FocusLightCheckBox" IsEnabled="{Binding ElementName=TapFocusRadioButton,Path=Tag}"
+                                Checked="FocusLightCheckBox_CheckedChanged" Unchecked="FocusLightCheckBox_CheckedChanged"/>
                 </StackPanel>
+            </Grid>
 
-                <Grid Name="ZoomGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=ZoomButton,Path=Tag}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Slider Name="ZoomSlider" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch" ValueChanged="ZoomSlider_ValueChanged"/>
-                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="{Binding ElementName=ZoomSlider,Path=Value,Converter={StaticResource RoundingConverter}}"/>
-                </Grid>
+            <Grid Name="WbStackPanel" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=WbButton,Path=Tag}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Slider Name="WbSlider" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch" ValueChanged="WbSlider_ValueChanged"/>
+                <TextBlock Name="WbTextBox" Grid.Row="1" HorizontalAlignment="Center" Text="{Binding ElementName=WbSlider,Path=Value}"/>
+                <ComboBox Name="WbComboBox" Grid.Row="2" SelectionChanged="WbComboBox_SelectionChanged"/>
+            </Grid>
 
-                <Grid Name="FocusGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=FocusButton,Path=Tag}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Slider Name="FocusSlider" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch"
-                            IsEnabled="{Binding ElementName=ManualFocusRadioButton,Path=IsChecked}" ValueChanged="FocusSlider_ValueChanged"/>
-                    <TextBlock Text="{Binding ElementName=FocusSlider,Path=Value,FallbackValue='0'}" Grid.Row="1" HorizontalAlignment="Center"/>
-                    <StackPanel Grid.Row="2">
-                        <RadioButton Content="Manual" Name="ManualFocusRadioButton" Checked="ManualFocusRadioButton_Checked" IsChecked="True"/>
-                        <RadioButton Content="CAF" Name="CafFocusRadioButton" Checked="CafFocusRadioButton_Checked"/>
-                        <RadioButton Content="Tap" Name="TapFocusRadioButton" Checked="TapFocusRadioButton_Checked"/>
-                        <CheckBox Content="Assist Light" Name="FocusLightCheckBox" IsEnabled="{Binding ElementName=TapFocusRadioButton,Path=Tag}"
-                                  Checked="FocusLightCheckBox_CheckedChanged" Unchecked="FocusLightCheckBox_CheckedChanged"/>
-                    </StackPanel>
-                </Grid>
+            <Grid Name="IsoGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=IsoButton,Path=Tag}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Slider Name="IsoSlider" Grid.Row="0" IsEnabled="{Binding ElementName=IsoAutoCheckBox,Path=IsChecked,Converter={StaticResource InvertBoolConverter}}"
+                        Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch" ValueChanged="IsoSlider_ValueChanged"/>
+                <TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="{Binding ElementName=IsoSlider,Path=Value}"/>
+                <CheckBox Name="IsoAutoCheckBox" Grid.Row="2" Content="Auto" Checked="IsoAutoCheckBox_CheckedChanged" Unchecked="IsoAutoCheckBox_CheckedChanged"/>
+            </Grid>
 
-                <Grid Name="WbStackPanel" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=WbButton,Path=Tag}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Slider Name="WbSlider" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch" ValueChanged="WbSlider_ValueChanged"/>
-                    <TextBlock Name="WbTextBox" Grid.Row="1" HorizontalAlignment="Center" Text="{Binding ElementName=WbSlider,Path=Value}"/>
-                    <ComboBox Name="WbComboBox" Grid.Row="2" SelectionChanged="WbComboBox_SelectionChanged"/>
-                </Grid>
+            <Grid Name="ShutterGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=ShutterButton,Path=Tag}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Slider Name="ShutterSlider" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch"  ValueChanged="ShutterSlider_ValueChanged"
+                        IsEnabled="{Binding ElementName=ShutterAutoCheckBox,Path=IsChecked,Converter={StaticResource InvertBoolConverter}}"/>
+                <TextBlock Name="ShutterTextBlock" Grid.Row="1" HorizontalAlignment="Center" Text="0"/>
+                <CheckBox Name="ShutterAutoCheckBox" Grid.Row="2" Content="Auto" Checked="ShutterCheckBox_CheckedChanged" Unchecked="ShutterCheckBox_CheckedChanged"/>
+            </Grid>
 
-                <Grid Name="IsoGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=IsoButton,Path=Tag}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Slider Name="IsoSlider" Grid.Row="0" IsEnabled="{Binding ElementName=IsoAutoCheckBox,Path=IsChecked,Converter={StaticResource InvertBoolConverter}}"
-                            Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch" ValueChanged="IsoSlider_ValueChanged"/>
-                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="{Binding ElementName=IsoSlider,Path=Value}"/>
-                    <CheckBox Name="IsoAutoCheckBox" Grid.Row="2" Content="Auto" Checked="IsoAutoCheckBox_CheckedChanged" Unchecked="IsoAutoCheckBox_CheckedChanged"/>
-                </Grid>
-
-                <Grid Name="ShutterGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=ShutterButton,Path=Tag}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Slider Name="ShutterSlider" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch"  ValueChanged="ShutterSlider_ValueChanged"
-                            IsEnabled="{Binding ElementName=ShutterAutoCheckBox,Path=IsChecked,Converter={StaticResource InvertBoolConverter}}"/>
-                    <TextBlock Name="ShutterTextBlock" Grid.Row="1" HorizontalAlignment="Center" Text="0"/>
-                    <CheckBox Name="ShutterAutoCheckBox" Grid.Row="2" Content="Auto" Checked="ShutterCheckBox_CheckedChanged" Unchecked="ShutterCheckBox_CheckedChanged"/>
-                </Grid>
-
-                <Grid Name="EvGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=EvButton,Path=Tag}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Slider Name="EvSlider" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch" ValueChanged="EvSlider_ValueChanged"/>
-                    <TextBlock Name="EvTextBlock" Grid.Row="1" HorizontalAlignment="Center"/>
-                </Grid>
+            <Grid Name="EvGrid" HorizontalAlignment="Center" Margin="10" Visibility="{Binding ElementName=EvButton,Path=Tag}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Slider Name="EvSlider" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch" ValueChanged="EvSlider_ValueChanged"/>
+                <TextBlock Name="EvTextBlock" Grid.Row="1" HorizontalAlignment="Center"/>
             </Grid>
         </Grid>
 

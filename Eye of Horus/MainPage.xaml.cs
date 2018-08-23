@@ -68,6 +68,7 @@ namespace Eye_of_Horus
 
         // UI stat variable: whether the user has chosen a single control to manipulate, or showing buttons for all controls
         private bool _singleControlMode;
+        private AppBarButton _previousSelectedButton;
 
         // A flag that signals when the UI controls (especially sliders) are being set up, to prevent them from triggering callbacks and making API calls
         private bool _settingUpUi;
@@ -77,7 +78,6 @@ namespace Eye_of_Horus
         public MainPage()
         {
             this.InitializeComponent();
-
             // Do not cache the state of the UI when navigating
             NavigationCacheMode = NavigationCacheMode.Disabled;
 
@@ -224,7 +224,10 @@ namespace Eye_of_Horus
 
         private async void PreviewControl_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            if (!_isPreviewing || (TapFocusRadioButton.IsChecked != true)) return;
+            if (!_isPreviewing || (TapFocusRadioButton.IsChecked != true)) {
+                ManualControlsGrid.Visibility = Visibility.Collapsed;
+                return;
+            }
 
             if (!_isFocused && _mediaCapture.VideoDeviceController.FocusControl.FocusState != MediaCaptureFocusState.Searching)
             {
@@ -577,7 +580,6 @@ namespace Eye_of_Horus
                 await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ShowAsync();
             }
         }
-
         /// <summary>
         /// This method will update the icons, enable/disable and show/hide the photo/video buttons depending on the current state of the app and the capabilities of the device
         /// </summary>
@@ -903,10 +905,17 @@ namespace Eye_of_Horus
                 }
                 else
                 {
-                    button.Tag = ((Visibility)button.Tag != Visibility.Visible) ? Visibility.Visible : Visibility.Collapsed;
+                    if (_previousSelectedButton == activeButton) {
+                        button.Tag = ((Visibility)button.Tag != Visibility.Visible) ? Visibility.Visible : Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        button.Tag = Visibility.Visible;
+                    } 
                 }
             }
 
+            _previousSelectedButton = (AppBarButton)activeButton;
             // Show the container control for manual configuration only when in single control mode
             ManualControlsGrid.Visibility = _singleControlMode ? Visibility.Visible : Visibility.Collapsed;
             // Show the Back button only when in single control mode

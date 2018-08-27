@@ -30,7 +30,6 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Eye_of_Horus
 {
-
     public sealed partial class MainPage : Page
     {
         // Receive notifications about rotation of the device and UI and apply any necessary rotation to the preview stream and UI controls       
@@ -878,12 +877,18 @@ namespace Eye_of_Horus
             // Combine both rotations and make sure that 0 <= result < 360
             var angle = (360 + display + device) % 360;
 
-            // Rotate the buttons in the UI to match the rotation of the device
-            var transform = new RotateTransform { Angle = angle };
+            foreach (AppBarButton button in OptionListView.Items)
+            {
+                // Rotate the buttons in the UI to match the rotation of the device
+                var transform = new RotateTransform { Angle = angle, CenterX = button.Width / 2, CenterY = button.ActualHeight / 2 };
+                button.RenderTransform = transform;
+            }
 
             // The RenderTransform is safe to use (i.e. it won't cause layout issues) in this case, because these buttons have a 1:1 aspect ratio
-            PhotoButton.RenderTransform = transform;
-            VideoButton.RenderTransform = transform;
+            var photoButtonTransform = new RotateTransform { Angle = angle, CenterX = (PhotoButton.ActualWidth / 2), CenterY = (PhotoButton.ActualHeight / 2) };
+            PhotoButton.RenderTransform = photoButtonTransform;
+            var videoButtonTransform = new RotateTransform { Angle = angle, CenterX = (VideoButton.Width / 2), CenterY = (VideoButton.ActualHeight / 2) };
+            VideoButton.RenderTransform = videoButtonTransform;
         }
 
         #endregion Rotation helpers
